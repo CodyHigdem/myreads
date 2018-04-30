@@ -6,10 +6,11 @@
 
 To get started developing right away:
 
-* Download the directory or use `git clone 
+* Download the directory or use `git clone https://github.com/qtheninja/myreads.git`
+* cd into directory myreads `cd myreads`
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
-
+* navigate to localhost:3000 in your browser
 
 ## Backend Server
 
