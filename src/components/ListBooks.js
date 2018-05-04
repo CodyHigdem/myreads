@@ -8,13 +8,13 @@ import PropTypes from 'prop-types';
 
 class ListBooks extends Component{
     static propTypes = {
-        books: PropTypes.array.isRequired,
-        updateBook: PropTypes.func.isRequired
+      books: PropTypes.array.isRequired,
+      updateBook: PropTypes.func.isRequired
     }
 
     render(){
 
-        const { books, updateBook } = this.props;
+      const { books, updateBook } = this.props;
 /*
       const showCurrentlyReading = books.find(function (book) { 
         return book.shelf === 'currentlyReading'; 

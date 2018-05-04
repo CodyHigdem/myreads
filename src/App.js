@@ -2,6 +2,7 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import ListBooks from './components/ListBooks.js';
+import BookSearch from './components/BookSearch';
 
 class BooksApp extends React.Component {
   state = {
@@ -13,14 +14,7 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false,
-    query: '',
     allBooks: [],
-  }
-
-  updateQuery = (query) => {
-    this.setState(() => ({
-        query: query.trim()
-    }))
   }
 
   clearQuery = () => {
@@ -35,10 +29,16 @@ class BooksApp extends React.Component {
     BooksAPI.getAll()
         .then((books) => {
             this.setState(()=>({
-                myBooks: books,
-                allBooks: books
+                myBooks: books
             }))
         })
+/*
+    BooksAPI.search()
+        .then((books) => {
+          console.log(books)
+        })
+*/
+
   }
 
   updateBook = (book, shelf) => {
@@ -64,50 +64,14 @@ class BooksApp extends React.Component {
     ? this.state.allBooks
     : BooksAPI.search(this.state.query);
 */
-    console.log(showingBooks);
 
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-
-
-                {showingBooks.length !== this.state.myBooks.length && (
-                    <div className="showing-contacts">
-                        <span> Now showing {showingBooks.length} of {this.state.myBooks.length}</span>
-                        <button
-                            onClick={this.clearQuery}
-                        > show all </button>
-                    </div>
-                )}
-                <input 
-                  type="text" 
-                  placeholder="Search by title or author"
-                  value={this.state.query}
-                  onChange={(event)=> this.updateQuery(event.target.value)}  
-                />
-
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid">
-            <h1> book count:   
-              {showingBooks.length}
-              </h1>
-              </ol>
-            </div>
-          </div>
+          <BookSearch 
+            updateBook={this.updateBook}
+            books={this.state.myBooks}
+            />
         ) : (
           <div className="list-books">
             <div className="list-books-title">
