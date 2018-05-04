@@ -2,8 +2,9 @@ import React, { Component} from 'react';
 import PropTypes from 'prop-types';
 //import { Link } from 'react-router-dom';
 
+import ListBooks from './ListBooks';
 import BookItem from './BookItem';
-import * as BooksAPI from '../BooksAPI'
+import * as BooksAPI from '../BooksAPI';
 
 class BookSearch extends Component{
     static propTypes = {
@@ -33,6 +34,8 @@ class BookSearch extends Component{
               }
         if (books.length != undefined) {
               books = books.filter((book) => (book.imageLinks))
+              
+              console.log(books);
               books = this.changeBookShelf(books)
               this.setState(() => {
                 return {Books: books}
@@ -92,6 +95,7 @@ class BookSearch extends Component{
                 />
               </div>
             </div>
+
             <div className="search-books-results">
               <ol className="books-grid">
                 {this.state.query.length > 0 && this.state.Books.map((book, index) => (
@@ -105,6 +109,13 @@ class BookSearch extends Component{
                 }
               </ol>
             </div>
+            {this.state.query.length > 0 && (
+                <ListBooks 
+                    books={this.state.Books}
+                    updateBook={updateBook}
+                />
+            )}
+
           </div>
         );
     }
