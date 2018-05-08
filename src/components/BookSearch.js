@@ -8,13 +8,13 @@ import * as BooksAPI from '../BooksAPI';
 
 class BookSearch extends Component{
     static propTypes = {
-        books: PropTypes.array.isRequired,
+        myBooks: PropTypes.array.isRequired,
         updateBook: PropTypes.func.isRequired
     }
 
     state = {
-        Books: [],
-        query: ''
+        books: [],
+        query: '',
     }
 
     updateQuery = (query) => {
@@ -30,15 +30,15 @@ class BookSearch extends Component{
             .then((books) => {
               if(books.error){
                   console.log('yo undefined');
-                  this.setState({Books: []})
+                  this.setState({books: []})
               }
         if (books.length != undefined) {
               books = books.filter((book) => (book.imageLinks))
-              
+
               console.log(books);
               books = this.changeBookShelf(books)
               this.setState(() => {
-                return {Books: books}
+                return {books}
               })
             }
           })
@@ -51,9 +51,10 @@ class BookSearch extends Component{
         }
         return books
       }
-      add_book = (book, shelf) => {
-        this.props.updateBook(book, shelf)
+      changeShelf = (book, shelf) =>{
+        this.props.updateBook(book, shelf);
       }
+
     clearQuery = () => {
         this.updateQuery('');
     }
@@ -77,16 +78,6 @@ class BookSearch extends Component{
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-
-
-                {(
-                    <div className="showing-contacts">
-                        <span> Now showing {books.length}</span>
-                        <button
-                            onClick={this.clearQuery}
-                        > show all </button>
-                    </div>
-                )}
                 <input 
                   type="text" 
                   placeholder="Search by title or author"
@@ -96,19 +87,44 @@ class BookSearch extends Component{
               </div>
             </div>
 
-            <div className="search-books-results">
-              <ol className="books-grid">
-                {this.state.query.length > 0 && this.state.Books.map((book, index) => (
+                <div className="bookshelf">
+                  <h2 className="bookshelf-title">Search Results</h2>
+                  <div className="bookshelf-books">
+                    <ol className="books-grid">
+                {this.state.query.length > 0 && this.state.books.map((book, index) => (
                     <BookItem 
                         book={book} 
                         key={index} 
-                        onUpdate={(shelf) => {
-                            this.add_book(book, shelf)
-                        }}
+                        updateBook={this.changeShelf}
                     />))
                 }
-              </ol>
-            </div>
+                    </ol>
+                  </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             {this.state.query.length > 0 && (
                 <ListBooks 
                     books={this.state.Books}

@@ -5,7 +5,7 @@ class Book extends Component {
 
   static propTypes = {
     book: PropTypes.object.isRequired,
-    onUpdate: PropTypes.func.isRequired
+    updateBook: PropTypes.func.isRequired
   }
 
   change_bookShelf = (e) => {
@@ -13,7 +13,8 @@ class Book extends Component {
   }
 
   render() {
-    const book = this.props.book
+    const {book, updateBook } = this.props;
+
     return (
       <li>
         <div className="book">
@@ -24,7 +25,7 @@ class Book extends Component {
               backgroundImage: `url("${book.imageLinks.thumbnail}")`
             }}></div>
             <div className="book-shelf-changer">
-              <select onChange={this.change_bookShelf} value={book.shelf}>
+              <select value={book.shelf} onChange={(event)=> updateBook(book, event.target.value)}>
                 <option value="none" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
